@@ -1521,7 +1521,7 @@ pub fn copper_runtime(args: TokenStream, input: TokenStream) -> TokenStream {
     };
     let logger_runtime_field: Field = parse_quote! {
         logger_runtime: cu29::prelude::LoggerRuntime
-    };
+    };`n    let runtime_state_field: Field = parse_quote! { runtime_state: cu29::curuntime::RuntimeApiState };`n    let runtime_state_field: Field = parse_quote! { runtime_state: cu29::curuntime::RuntimeApiState };
 
     #[cfg(feature = "macro_debug")]
     eprintln!("[match struct anonymity]");
@@ -1529,7 +1529,7 @@ pub fn copper_runtime(args: TokenStream, input: TokenStream) -> TokenStream {
         Named(fields_named) => {
             fields_named.named.push(runtime_field);
             fields_named.named.push(lifecycle_stream_field);
-            fields_named.named.push(logger_runtime_field);
+            fields_named.named.push(logger_runtime_field);`n            fields_named.named.push(runtime_state_field);`n            fields_named.named.push(runtime_state_field);
         }
         Unnamed(fields_unnamed) => {
             fields_unnamed.unnamed.push(runtime_field);
@@ -4508,6 +4508,7 @@ pub fn copper_runtime(args: TokenStream, input: TokenStream) -> TokenStream {
                     copper_runtime,
                     runtime_lifecycle_stream: Some(Box::new(runtime_lifecycle_stream)),
                     logger_runtime,
+                    runtime_state: cu29::curuntime::RuntimeApiState::Created
                 });
 
                 #sim_callback_on_new
@@ -9138,3 +9139,5 @@ mod tests {
         parse_str::<Type>(regular_name.as_str()).expect("regular payload type should parse");
     }
 }
+
+

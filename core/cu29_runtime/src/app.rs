@@ -28,6 +28,29 @@ mod imp {
 
 use imp::*;
 
+/// Runtime API state machine for CuApplication.
+///
+/// Tracks the application lifecycle to prevent invalid API calls:
+/// - Created: App just created, start_all_tasks() can be called
+/// - Ready: start_all_tasks() completed, run()/run_one_iteration() can be called
+/// - Stopped: stop_all_tasks() completed, no more run() calls allowed
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RuntimeApiState {
+    Created,
+    Ready,
+    Stopped,
+}
+
+impl std::fmt::Display for RuntimeApiState {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RuntimeApiState::Created => write!(f, "Created"),
+            RuntimeApiState::Ready => write!(f, "Ready"),
+            RuntimeApiState::Stopped => write!(f, "Stopped"),
+        }
+    }
+}
+
 /// Convenience trait for CuApplication when it is just a std App
 #[cfg(feature = "std")]
 pub trait CuStdApplication:
