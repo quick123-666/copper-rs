@@ -4508,6 +4508,7 @@ pub fn copper_runtime(args: TokenStream, input: TokenStream) -> TokenStream {
                     copper_runtime,
                     runtime_lifecycle_stream: Some(Box::new(runtime_lifecycle_stream)),
                     logger_runtime,
+                    runtime_state: cu29::curuntime::RuntimeApiState::Created
                 });
 
                 #sim_callback_on_new
@@ -9138,4 +9139,5 @@ mod tests {
         parse_str::<Type>(regular_name.as_str()).expect("regular payload type should parse");
     }
 }
+
 
